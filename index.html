@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login y Registro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <style>
+    :root {
+      --primary-color: #168a40;
+      --secondary-color: #168a40;
+      --accent-color: #168a40;
+      --light-color: #f8f9fa;
+      --dark-color: #212529;
+      --success-color: #22c55e;
+      --error-color: #ef4444;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html {
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      position: fixed;
+      width: 100%;
+      overflow: hidden;
+      background-color: rgb(228, 226, 226);
+    }
+    
+    .card {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      padding: 40px;
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      z-index: 1;
+      border: 1px solid rgba(34, 197, 94, 0.1);
+    }
+
+    .card-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .card-header h2 {
+      color: var(--primary-color);
+      font-weight: 600;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .card-header h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: var(--accent-color);
+      border-radius: 3px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+      position: relative;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--dark-color);
+      font-weight: 500;
+      font-size: 14px;
+    }
+    
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e9ecef;
+      border-radius: 8px;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      background-color: #f8f9fa;
+    }
+    
+    .form-group input:focus,
+    .form-group select:focus {
+      border-color: var(--primary-color);
+      background-color: white;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2);
+    }
+    
+    .form-group input::placeholder {
+      color: #adb5bd;
+    }
+    
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+      color: white;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 10px;
+    }
+    
+    button:hover {
+      background: linear-gradient(to right, var(--secondary-color), var(--primary-color));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(34, 197, 94, 0.3);
+    }
+    
+    .toggle-form {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: var(--dark-color);
+    }
+    
+    .toggle-form a {
+      color: var(--primary-color);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    
+    .toggle-form a:hover {
+      color: var(--secondary-color);
+      text-decoration: underline;
+    }
+    
+    .form-container {
+      position: relative;
+      height: auto;
+      overflow: hidden;
+    }
+    
+    .form {
+      transition: all 0.5s ease;
+      opacity: 1;
+      transform: translateX(0);
+    }
+    
+    .form.hidden {
+      position: absolute;
+      opacity: 0;
+      transform: translateX(100%);
+      pointer-events: none;
+    }
+    
+    .message-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    
+    .message-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    
+    .message-content {
+      background: white;
+      border-radius: 15px;
+      padding: 30px;
+      width: 90%;
+      max-width: 400px;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+    
+    .message-modal.show .message-content {
+      transform: translateY(0);
+    }
+    
+    .message-icon {
+      font-size: 50px;
+      margin-bottom: 20px;
+    }
+    
+    .message-icon.success {
+      color: var(--success-color);
+    }
+    
+    .message-icon.error {
+      color: var(--error-color);
+    }
+    
+    .message-title {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: var(--dark-color);
+    }
+    
+    .message-text {
+      color: #666;
+      margin-bottom: 20px;
+    }
+    
+    .message-button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background: var(--primary-color);
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .message-button:hover {
+      background: var(--secondary-color);
+      transform: translateY(-2px);
+    }
+    
+    @media (max-width: 480px) {
+      .card {
+        padding: 30px 20px;
+      }
+      
+      .message-content {
+        padding: 20px;
+      }
+      
+      .message-icon {
+        font-size: 40px;
+      }
+    }
+    
+  </style>
+</head>
+<body>
+
+<div class="message-modal" id="message-modal">
+  <div class="message-content">
+    <div class="message-icon success" id="message-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h3 class="message-title" id="message-title">¡Éxito!</h3>
+    <p class="message-text" id="message-text">Operación realizada correctamente</p>
+    <button class="message-button" id="message-button">Aceptar</button>
+  </div>
+</div>
+
+<div class="card">
+  <div class="card-header">
+    <h2 id="form-title">Iniciar Sesión</h2>
+  </div>
+  
+  <div class="form-container">
+    <form id="login-form" class="form">
+      <div class="form-group">
+        <label for="email-login">Correo electrónico</label>
+        <input type="email" id="email-login" name="email" placeholder="Ingresa tu correo" required>
+      </div>
+      <div class="form-group">
+        <label for="contraseña-login">Contraseña</label>
+        <input type="password" id="contraseña-login" name="contraseña" placeholder="Ingresa tu contraseña" required>
+      </div>
+      <button type="submit">Iniciar sesión</button>
+    </form>
+    
+    <form id="register-form" class="form hidden">
+      <div class="form-group">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre" required>
+      </div>
+      <div class="form-group">
+        <label for="email-registro">Correo electrónico</label>
+        <input type="email" id="email-registro" name="email" placeholder="Ingresa tu correo" required>
+      </div>
+      <div class="form-group">
+        <label for="contraseña-registro">Contraseña</label>
+        <input type="password" id="contraseña-registro" name="contraseña" placeholder="Crea una contraseña" required>
+      </div>
+      <div class="form-group">
+        <label for="rol">Rol</label>
+        <select id="rol" name="rol" required>
+          <option value="">Selecciona un rol</option>
+          <option value="1">Administrador</option>
+          <option value="2">Docente</option>
+          <option value="3">Practicante</option>
+        </select>
+      </div>
+      <button type="submit">Registrarse</button>
+    </form>
+  </div>
+  
+  <div class="toggle-form">
+    <span id="toggle-text">¿No tienes cuenta?</span>
+    <a href="#" id="toggle-link">Regístrate</a>
+  </div>
+</div>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const toggleLink = document.getElementById('toggle-link');
+    const toggleText = document.getElementById('toggle-text');
+    const formTitle = document.getElementById('form-title');
+    
+    let isLogin = true;
+    
+    $('#message-button').on('click', function() {
+      $('#message-modal').removeClass('show');
+    });
+    
+    toggleLink.addEventListener('click', function(e) {
+      e.preventDefault();
+      
+      if (isLogin) {
+        loginForm.classList.add('hidden');
+        registerForm.classList.remove('hidden');
+        toggleText.textContent = '¿Ya tienes cuenta?';
+        toggleLink.textContent = 'Inicia sesión';
+        formTitle.textContent = 'Registrarse';
+      } else {
+        registerForm.classList.add('hidden');
+        loginForm.classList.remove('hidden');
+        toggleText.textContent = '¿No tienes cuenta?';
+        toggleLink.textContent = 'Regístrate';
+        formTitle.textContent = 'Iniciar Sesión';
+      }
+      
+      isLogin = !isLogin;
+    });
+
+    function showMessage(title, text, type) {
+      const messageModal = $('#message-modal');
+      const messageTitle = $('#message-title');
+      const messageText = $('#message-text');
+      const messageIcon = $('#message-icon');
+      const messageButton = $('#message-button');
+      
+      messageTitle.text(title);
+      messageText.text(text);
+      
+      if (type === 'success') {
+        messageIcon.removeClass('error').addClass('success');
+        messageIcon.html('<i class="fas fa-check-circle"></i>');
+        messageButton.css('background', 'var(--primary-color)');
+      } else {
+        messageIcon.removeClass('success').addClass('error');
+        messageIcon.html('<i class="fas fa-exclamation-circle"></i>');
+        messageButton.css('background', 'var(--error-color)');
+      }
+      
+      messageModal.addClass('show');
+    }
+
+    $('#login-form').on('submit', function(e) {
+      e.preventDefault();
+      
+      const email = $('#email-login').val();
+      const contraseña = $('#contraseña-login').val();
+      
+      $.ajax({
+        url: 'login.php',
+        type: 'POST',
+        data: {
+          email: email,
+          contraseña: contraseña
+        },
+        success: function(response) {
+          if (response === "success") {
+            window.location.href = 'dashboard.php';
+          } else {
+            showMessage('Error', response, 'error');
+            
+            if (response.includes("contraseña")) {
+              $('#contraseña-login').focus().select();
+            } else if (response.includes("Usuario")) {
+              $('#email-login').focus().select();
+            }
+          }
+        },
+        error: function() {
+          showMessage('Error', 'Ocurrió un error al procesar la solicitud', 'error');
+        }
+      });
+    });
+
+    $('#register-form').on('submit', function(e) {
+      e.preventDefault();
+      
+      const nombre = $('#nombre').val();
+      const email = $('#email-registro').val();
+      const contraseña = $('#contraseña-registro').val();
+      const rol = $('#rol').val();
+      
+      $.ajax({
+        url: 'registro.php',
+        type: 'POST',
+        data: {
+          nombre: nombre,
+          email: email,
+          contraseña: contraseña,
+          rol: rol
+        },
+        success: function(response) {
+          if (response.includes("éxito") || response.includes("Bienvenido")) {
+            showMessage('¡Registro exitoso!', response, 'success');
+            
+            $('#message-button').off('click').on('click', function() {
+              $('#message-modal').removeClass('show');
+              
+              registerForm.classList.add('hidden');
+              loginForm.classList.remove('hidden');
+              toggleText.textContent = '¿No tienes cuenta?';
+              toggleLink.textContent = 'Regístrate';
+              formTitle.textContent = 'Iniciar Sesión';
+              isLogin = true;
+              
+              $('#nombre').val('');
+              $('#email-registro').val('');
+              $('#contraseña-registro').val('');
+              $('#rol').val('');
+            });
+          } else {
+            showMessage('Error', response, 'error');
+          }
+        },
+        error: function() {
+          showMessage('Error', 'Ocurrió un error al procesar el registro', 'error');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

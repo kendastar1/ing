@@ -1,0 +1,187 @@
+  /* Estilos base para mensajes sin datos */
+    .no-data-message {
+        text-align: center;
+        padding: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        background: rgba(108, 92, 231, 0.03);
+        border-radius: 12px;
+        border: 2px dashed rgba(108, 92, 231, 0.1);
+        margin: 1rem;
+        min-height: 250px;
+    }
+
+    .no-data-message i {
+        font-size: 3rem;
+        color: rgba(108, 92, 231, 0.2);
+    }
+
+    .no-data-message h3 {
+        color: var(--color-dark);
+        font-size: 1.3rem;
+        font-weight: 600;
+    }
+
+    .no-data-message p {
+        color: var(--color-dark-light);
+        max-width: 400px;
+        line-height: 1.5;
+    }
+
+    .no-data-message .btn-primary {
+        background: var(--gradient-primary);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.8rem 1.5rem;
+        font-size: 0.9rem;
+        font-weight: 600;
+    }
+
+    /* Estilos para tabla de incidencias */
+    #incidencias-section {
+        display: none;
+        margin-top: 1.5rem;
+    }
+
+    #tablaIncidencias {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.9rem;
+    }
+
+    #tablaIncidencias th {
+        background: #f8f9fa;
+        padding: 0.8rem 1rem;
+        text-align: left;
+        font-weight: 600;
+        border-bottom: 2px solid #e0e0e0;
+    }
+
+    #tablaIncidencias td {
+        padding: 0.8rem 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    #tablaIncidencias tr:hover td {
+        background: rgba(108, 92, 231, 0.03);
+    }
+
+    /* Estilos para badges de estado */
+    .badge {
+        padding: 0.35rem 0.7rem;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+    }
+
+    .badge-reportado {
+        background: var(--gradient-secondary);
+        color: white;
+    }
+
+   .estado-asignado {
+    background-color: #2196F3;
+    border: 1px solid #1976D2;
+}
+
+   .estado-en_proceso {
+    background-color: #FFC107;
+    border: 1px solid #FFA000;
+    color: #333;
+}
+
+   .estado-resuelto {
+    background-color: #4CAF50;
+    border: 1px solid #388E3C;
+}
+
+    /* Estilos para prioridades */
+    .badge-baja {
+        background: #6c757d;
+        color: white;
+    }
+
+    .badge-media {
+        background: #17a2b8;
+        color: white;
+    }
+
+    .badge-alta {
+        background: #ffc107;
+        color: #212529;
+    }
+
+    .badge-critica {
+        background: #dc3545;
+        color: white;
+    }
+
+    /* Estilos para modales compactos */
+    .modal-incidencia .modal-content {
+        max-width: 500px;
+        padding: 1.5rem;
+    }
+
+    .modal-incidencia .modal-header {
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        border-bottom: 1px solid #f0f0f0;
+    }
+
+    .modal-incidencia .modal-title {
+        font-size: 1.3rem;
+    }
+
+    .modal-incidencia .form-group {
+        margin-bottom: 1rem;
+    }
+
+    .modal-incidencia .form-group label {
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .modal-incidencia input,
+    .modal-incidencia select,
+    .modal-incidencia textarea {
+        padding: 0.6rem 0.8rem;
+        font-size: 0.9rem;
+        border-radius: 8px;
+    }
+
+    .modal-incidencia textarea {
+        min-height: 80px;
+    }
+
+    /* Campos de fecha sin horas/minutos */
+    .modal-incidencia input[type="date"] {
+        appearance: none;
+        background: #f8f9fa url('data:image/svg+xml;utf8,<svg fill="%236c757d" height="16" viewBox="0 0 24 24" width="16" xmlns="http://www.w3.org/2000/svg"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg>') no-repeat 95% center;
+        background-size: 16px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .modal-incidencia .modal-content {
+            max-width: 90%;
+            padding: 1rem;
+        }
+        
+        #tablaIncidencias {
+            font-size: 0.85rem;
+        }
+        
+        #tablaIncidencias th,
+        #tablaIncidencias td {
+            padding: 0.6rem 0.8rem;
+        }
+    }
+   
